@@ -7,7 +7,6 @@ COBJ = $(CSRC:.c=.o)
 ASRC=$(shell find -name "*.s")
 AOBJ = $(ASRC:.s=.o)
 
-#OBJECTS= startup_LPC17xx.o core_cm3.o system_LPC17xx.o $(PROJECT).o
 OBJECTS= $(COBJ) $(AOBJ)
 LSCRIPT=LPC17xx.ld
 OPTIMIZATION = s -fno-schedule-insns2 -fsection-anchors -fpromote-loop-indices -ffunction-sections -fdata-sections
