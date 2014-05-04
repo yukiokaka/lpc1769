@@ -54,7 +54,7 @@
 extern unsigned int SystemCoreClock;
 #define vPortSVCHandler SVC_Handler
 #define xPortPendSVHandler PendSV_Handler
-#define xPortSysTickHandler SysTick_Handle
+#define xPortSysTickHandler SysTick_Handler
 
 #define configUSE_PREEMPTION		1
 #define configUSE_IDLE_HOOK			0
