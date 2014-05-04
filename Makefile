@@ -2,14 +2,20 @@
 PROJECT=prototype
 
 #  List of the objects files to be compiled/assemble
-OBJECTS=startup_LPC17xx.o core_cm3.o system_LPC17xx.o $(PROJECT).o
+CSRC =$(shell find -name "*.c")
+COBJ = $(CSRC:.c=.o)
+ASRC=$(shell find -name "*.s")
+AOBJ = $(ASRC:.s=.o)
+
+#OBJECTS= startup_LPC17xx.o core_cm3.o system_LPC17xx.o $(PROJECT).o
+OBJECTS= $(COBJ) $(AOBJ)
 LSCRIPT=LPC17xx.ld
 OPTIMIZATION = s -fno-schedule-insns2 -fsection-anchors -fpromote-loop-indices -ffunction-sections -fdata-sections
 #DEBUG = -g
 
 #  Compiler Options
-GCFLAGS = -Wall -mcpu=cortex-m3 -mfloat-abi=softfp -mthumb -mfix-cortex-m3-ldrd -O$(OPTIMIZATION) $(DEBUG)
-GCFLAGS += -D__RAM_MODE__=0 -Icmsis
+GCFLAGS = -Wall -mcpu=cortex-m3 -mfloat-abi=softfp -mthumb -mfix-cortex-m3-ldrd -I./cmsis/inc -I./FreeRTOS_Library/portable -I./FreeRTOS_Library/include -O$(OPTIMIZATION) $(DEBUG)
+GCFLAGS += -D__RAM_MODE__=0
 LDFLAGS = -mcpu=cortex-m3 -mfloat-abi=softfp -mthumb -mfix-cortex-m3-ldrd -O$(OPTIMIZATION) -Wl,-Map=$(PROJECT).map -T$(LSCRIPT)
 ASFLAGS = -mcpu=cortex-m3 --defsym RAM_MODE=0
 
@@ -56,14 +62,15 @@ clean:
 #  Default rules to compile .c and .cpp file to .o
 #  and assemble .s files to .o
 
-.c.o :
-	$(GCC) $(GCFLAGS) -c $<
+$(COBJ) : %.o : %.c
+
+	$(GCC) $(GCFLAGS) -c $< -o $@
 
 .cpp.o :
-	$(GCC) $(GCFLAGS) -c $<
+	$(GCC) $(GCFLAGS) -c $< -o $@
 
-.S.o :
-	$(AS) $(ASFLAGS) -o $@ $<
+$(AOBJ) : %.o : %.s
+	$(AS) $(ASFLAGS) -o $@ $< -o $@
 
 .PHONY: boot
 boot:
