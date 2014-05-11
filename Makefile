@@ -13,7 +13,7 @@ OPTIMIZATION = s -fno-schedule-insns2 -fsection-anchors -fpromote-loop-indices -
 #DEBUG = -g
 
 #  Compiler Options
-GCFLAGS = -Wall -mcpu=cortex-m3 -mfloat-abi=softfp -mthumb -mfix-cortex-m3-ldrd -I./CMSIS/inc -I./FreeRTOS_Library/portable -I./FreeRTOS_Library/include -O$(OPTIMIZATION) $(DEBUG)
+GCFLAGS = -Wall -mcpu=cortex-m3 -mfloat-abi=softfp -mthumb -mfix-cortex-m3-ldrd -I./CMSIS/inc -I./Drivers/include  -I./FreeRTOS_Library/portable -I./FreeRTOS_Library/include -O$(OPTIMIZATION) $(DEBUG)
 GCFLAGS += -D__RAM_MODE__=0
 LDFLAGS = -mcpu=cortex-m3 -mfloat-abi=softfp -mthumb -mfix-cortex-m3-ldrd -O$(OPTIMIZATION) -Wl,-Map=$(PROJECT).map -T$(LSCRIPT)
 ASFLAGS = -mcpu=cortex-m3 --defsym RAM_MODE=0
